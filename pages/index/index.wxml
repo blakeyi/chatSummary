@@ -1,0 +1,22 @@
+<!--index.wxml-->
+<view class="container">
+  <image src="{{bgImage}}" mode="aspectFill"></image>
+  <view class="content">
+    <view wx:if="{{curStage == 0}}">
+      <progress percent="100" color="#10AEFF" active stroke-width="8" border-radius="5" show-info duration="50" />
+      <text class="progressText">{{curProgress}}%</text>
+    </view>
+
+    <view wx:if="{{curStage == 1}}">
+      <image class="close" src="../imgs/close.jpg" mode="aspectFill" bindtap="audioPlay"></image>
+      <image class="music" src="../imgs/music.jpg" mode="aspectFill" bindtap="audioPlay" animation="{{animation}}"></image>
+      <image class="share" src="../imgs/share.jpg" mode="aspectFill" bindtap="audioPlay"></image>
+      <button class="btnStart" bindtap="startMain">开启旅程</button>
+    </view>
+    <view wx:if="{{curStage == 2}}">
+      <image class="next" src="../imgs/next.gif" mode="aspectFill" ></image>
+    </view>
+
+    <audio poster="true" src="{{src}}" id="myAudio" loop></audio>
+  </view>
+</view>
