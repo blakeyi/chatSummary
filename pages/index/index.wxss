@@ -72,4 +72,19 @@ progress {
   left: 25rpx;
   z-index: 1;
 }
+
+/* 普通类型的文字 */
+.normal {
+  color: #ffffff;
+  margin-left: 50rpx;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.important {
+  color: #ffffff;
+  margin-left: 50rpx;
+  font-size: 22px;
+  margin-bottom: 20rpx;
+}
  
