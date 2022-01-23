@@ -8,18 +8,17 @@
     </view>
 
     <view wx:if="{{curStage == 1}}">
-      <image class="close" src="../images/close.jpg" mode="aspectFill" bindtap="audioPlay"></image>
-      <image class="music" src="../images/music.jpg" mode="aspectFill" bindtap="audioPlay" animation="{{animation}}"></image>
-      <image class="share" src="../images/share.jpg" mode="aspectFill" bindtap="audioPlay"></image>
+      <image class="close" src="https://www.blakeyi.cn/images/close.jpg" mode="aspectFill" bindtap="audioPlay"></image>
+      <image class="music" src="https://www.blakeyi.cn/images/music.jpg" mode="aspectFill" bindtap="audioPlay" animation="{{animation}}"></image>
+      <image class="share" src="https://www.blakeyi.cn/images/share.jpg" mode="aspectFill" bindtap="audioPlay"></image>
       <button class="btnStart" bindtap="startMain">开启旅程</button>
     </view>
     <view wx:if="{{curStage >= 2}}">
-      <view wx:for="{{records[curStage - 2]}}">
+      <view wx:for="{{records[curStage - 2]}}" wx:key="{{records[curStage - 2]}}">
       <text class="{{item.type}}">{{item.message}}</text>
       </view>
-      <image class="next" src="../images/next.gif" mode="aspectFill" ></image>
+      <image class="next" src="https://www.blakeyi.cn/images/next.gif" mode="aspectFill" ></image>
     </view>
-
-    <audio poster="true" src="{{src}}" id="myAudio" loop></audio>
+    <!-- <audio poster="true" src="{{bgm}}" id="myAudio" loop></audio> -->
   </view>
 </view>
