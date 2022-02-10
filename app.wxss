@@ -1,4 +1,7 @@
 /**app.wxss**/
+@import '/style/icons.wxss';
+@import '/style/common.wxss';
+@import '/style/color.wxss';
 page{
   width: 100%;
   height: 100%;

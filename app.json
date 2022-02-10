@@ -1,14 +1,52 @@
 {
   "pages":[
     "pages/index/index",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/user/user",
+    "pages/user/phoneLogin/phoneLogin",
+    "pages/timingTask/timingTask",
+    "pages/summary/summary"
   ],
   "window":{
     "backgroundTextStyle":"light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "Weixin",
+    "navigationBarBackgroundColor": "#fda1ac",
+    "navigationBarTitleText": "君君的小木屋",
     "navigationBarTextStyle":"black"
   },
+
+  "tabBar": {
+    "color": "#cdcdcd",
+    "selectedColor": "#ff520f",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "/images/tabbar/home-icon.png",
+        "selectedIconPath": "/images/tabbar/home-selectIcon.png"
+      },
+      {
+        "pagePath": "pages/timingTask/timingTask",
+        "text": "任务",
+        "iconPath": "/images/tabbar/fen-icon.png",
+        "selectedIconPath": "/images/tabbar/fen-selectIcon.png"
+      },
+      {
+        "pagePath": "pages/summary/summary",
+        "text": "总结",
+        "iconPath": "/images/tabbar/collection-icon.png",
+        "selectedIconPath": "/images/tabbar/collection-selectIcon.png"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "text": "我的",
+        "iconPath": "/images/tabbar/user-icon.png",
+        "selectedIconPath": "/images/tabbar/user-selectIcon.png"
+      }
+    ]
+  },
   "style": "v2",
-  "sitemapLocation": "sitemap.json"
+  "sitemapLocation": "sitemap.json",
+  "useExtendedLib": { 
+    "weui": true
+  }
 }

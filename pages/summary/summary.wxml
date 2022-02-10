@@ -1,0 +1,32 @@
+<!--index.wxml-->
+<view class="container" bindtouchstart='touchStart' bindtouchmove='touchMove' bindtouchend='touchEnd'>
+  <image src="{{bgImage}}" mode="aspectFill"></image>
+  <view class="content">
+    <view wx:if="{{curStage == -1}}" >
+      <view class="totalDays">{{totalDays}}</view>
+      <button class="btnEnter" bindtap="startProgress">查看详细内容</button>
+    </view>
+    <view wx:if="{{curStage == 0}}">
+      <progress percent="100" color="#10AEFF" active stroke-width="8" border-radius="5"  duration="50" />
+      <text class="progressText">{{curProgress}}%</text>
+    </view>
+
+    <view wx:if="{{curStage >= 1}}">
+      <image class="close" src="/images/summary/close.png" mode="aspectFill" bindtap="stopPlay"></image>
+      <image class="music" src="/images/summary/music.png" mode="aspectFill" bindtap="audioPlay" animation="{{animation}}"></image>
+      <image class="share" src="/images/summary/share.png" mode="aspectFill" bindtap="audioPlay"></image>
+    </view>
+    <view wx:if="{{curStage == 1}}">
+      <button class="btnStart" bindtap="startMain">开启旅程</button>
+    </view>
+    <view wx:if="{{curStage >= 2}}" >
+     <view class="textArea">
+      <view wx:for="{{records[curStage - 2]}}" wx:key="{{records[curStage - 2]}}">
+        <view class="{{item.type}}">{{item.message}}</view>
+      </view>
+     </view>
+      <image class="next" src="/images/summary/next.gif" mode="aspectFill"  wx:if="{{curStage < 7}}"></image>
+    </view>
+    <!-- <audio poster="true" src="{{bgm}}" id="myAudio" loop></audio> -->
+  </view>
+</view>

@@ -1,0 +1,12 @@
+{
+  "usingComponents": {
+    "mp-dialog": "/miniprogram_npm/weui-miniprogram/dialog/dialog",
+    "van-button":"@vant/weapp/button",
+    "van-search": "@vant/weapp/search/index",
+    "van-grid": "@vant/weapp/grid/index",
+    "van-grid-item": "@vant/weapp/grid-item/index",
+    "van-row":"@vant/weapp/row/index",
+    "van-col":"@vant/weapp/col/index",
+    "van-card": "@vant/weapp/card/index"
+  }
+}

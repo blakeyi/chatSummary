@@ -1,24 +1,4 @@
-<!--index.wxml-->
-<view class="container" bindtouchstart='touchStart' bindtouchmove='touchMove' bindtouchend='touchEnd'>
-  <image src="{{bgImage}}" mode="aspectFill"></image>
-  <view class="content">
-    <view wx:if="{{curStage == 0}}">
-      <progress percent="100" color="#10AEFF" active stroke-width="8" border-radius="5" show-info duration="50" />
-      <text class="progressText">{{curProgress}}%</text>
-    </view>
-
-    <view wx:if="{{curStage == 1}}">
-      <image class="close" src="https://www.blakeyi.cn/images/close.jpg" mode="aspectFill" bindtap="audioPlay"></image>
-      <image class="music" src="https://www.blakeyi.cn/images/music.jpg" mode="aspectFill" bindtap="audioPlay" animation="{{animation}}"></image>
-      <image class="share" src="https://www.blakeyi.cn/images/share.jpg" mode="aspectFill" bindtap="audioPlay"></image>
-      <button class="btnStart" bindtap="startMain">开启旅程</button>
-    </view>
-    <view wx:if="{{curStage >= 2}}">
-      <view wx:for="{{records[curStage - 2]}}" wx:key="{{records[curStage - 2]}}">
-      <text class="{{item.type}}">{{item.message}}</text>
-      </view>
-      <image class="next" src="https://www.blakeyi.cn/images/next.gif" mode="aspectFill" ></image>
-    </view>
-    <!-- <audio poster="true" src="{{bgm}}" id="myAudio" loop></audio> -->
-  </view>
+<!-- 内容 -->
+<view>
+欢迎来到君君的小木屋
 </view>
