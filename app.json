@@ -44,7 +44,6 @@
       }
     ]
   },
-  "style": "v2",
   "sitemapLocation": "sitemap.json",
   "useExtendedLib": { 
     "weui": true

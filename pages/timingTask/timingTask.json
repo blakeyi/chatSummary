@@ -1,12 +1,18 @@
 {
   "usingComponents": {
-    "mp-dialog": "/miniprogram_npm/weui-miniprogram/dialog/dialog",
+    "mp-dialog": "weui-miniprogram/dialog/dialog",
+    "mp-form": "weui-miniprogram/form/form",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
     "van-button":"@vant/weapp/button",
     "van-search": "@vant/weapp/search/index",
     "van-grid": "@vant/weapp/grid/index",
     "van-grid-item": "@vant/weapp/grid-item/index",
     "van-row":"@vant/weapp/row/index",
     "van-col":"@vant/weapp/col/index",
-    "van-card": "@vant/weapp/card/index"
+    "van-card": "@vant/weapp/card/index",
+    "mp-half-screen-dialog": "weui-miniprogram/half-screen-dialog/half-screen-dialog",
+    "mp-checkbox-group": "weui-miniprogram/checkbox-group/checkbox-group",
+    "mp-checkbox": "weui-miniprogram/checkbox/checkbox"
   }
 }

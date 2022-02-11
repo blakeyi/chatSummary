@@ -1,5 +1,1 @@
 /* pages/timingTask/timingTask.wxss */
-
-.van-button{
-    width: 50px;
-}

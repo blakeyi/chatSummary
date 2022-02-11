@@ -1,38 +1,69 @@
-<view>
-  <van-row>
-    <van-col span="16">
-      <van-search value="{{ searchStr }}" placeholder="输入任务名称" show-action bind:search="onSearch" bind:cancel="onCancel"></van-search>
-    </van-col>
-    <van-col span="1">
-      <van-button round type="primary" size="small">主要</van-button>
-    </van-col>
-  </van-row>
+<van-row>
+  <van-col span="18">
+    <van-search value="{{ searchStr }}" placeholder="输入任务名称" show-action bind:search="onSearch" bind:cancel="onCancel"></van-search>
+  </van-col>
+  <van-col span="4" offset="1">
+    <van-button type="primary" size="small" bind:click="showTask">新增任务</van-button>
+  </van-col>
+</van-row>
+<van-grid direction="horizontal" column-num="2">
+  <van-grid-item use-slot wx:for="{{tasks}}" wx:for-item="task">
+    <van-card tag="{{task.tag}}" desc="{{task.desc}}" title="{{task.title}}">
+      <view slot="price-top">
+        <text>周期:</text>
+        <text>{{task.period}}</text>
+      </view>
+      <view slot="footer">
+        <van-button size="mini" bind:click="editTask" data-task="{{task}}">编辑</van-button>
+        <van-button size="mini" type='danger' bind:click="deleteTask" data-task="{{task}}">删除</van-button>
+      </view>
+    </van-card>
+  </van-grid-item>
+</van-grid>
 
+<mp-dialog title="新增任务" show="{{addTaskShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}" zIndex="100">
+  <mp-form id="form" rules="{{rules}}" models="{{form}}">
+    <mp-cells>
+      <mp-cell class="form_item" prop="title" title="标题">
+        <input bindinput="formInputChange" model:value="{{title}}" data-field="title" class="weui-input" placeholder="" />
+      </mp-cell>
+      <mp-cell class="form_item" prop="tag" title="类型">
+        <radio-group name="radio" bindchange="bindTagChange">
+          <label>
+            <radio value="提醒" checked="{{tagCheckStatus}}"/>提醒
+          </label>
+          <label>
+            <radio value="任务" checked="{{!tagCheckStatus}}"/>任务
+          </label>
+        </radio-group>
+      </mp-cell>
+      <mp-cell class="form_item" prop="desc" title="描述">
+        <input bindinput="formInputChange" model:value="{{desc}}" data-field="desc" class="weui-input" placeholder="" />
+      </mp-cell>
+      <mp-cell class="form_item" prop="desc" title="周期">
+        <picker bindchange="bindPeriodChange" value="{{periodIndex}}" range="{{periodTypeOption}}">
+          <view class="weui-input">{{periodType}}</view>
+        </picker>
+      </mp-cell>
+      <mp-cell class="form_item" prop="desc" title="具体时间">
+        <picker mode="time" value="{{concreteTime}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+          <view class="weui-input">{{concreteTime}}</view>
+        </picker>
+      </mp-cell>
+    </mp-cells>
+    <!--提交按钮-->
+    <view class="submit_btn_wrap">
+      <button type="primary" bindtap="weSubmitForm">确定</button>
+      <button type="warn" bindtap="restForm" plain style="margin-top: 10px;">取消</button>
+    </view>
+  </mp-form>
+</mp-dialog>
 
-  <van-grid direction="horizontal" column-num="2">
-    <van-grid-item use-slot>
-      <van-card num="2" tag="标签" price="10.00" desc="描述信息" title="商品标题" thumb="{{ imageURL }}">
-        <view slot="footer">
-          <van-button size="mini">按钮</van-button>
-          <van-button size="mini">按钮</van-button>
-        </view>
-      </van-card>
-    </van-grid-item>
-    <van-grid-item use-slot>
-      <van-card num="2" tag="标签" price="10.00" desc="描述信息" title="商品标题" thumb="{{ imageURL }}">
-        <view slot="footer">
-          <van-button size="mini">按钮</van-button>
-          <van-button size="mini">按钮</van-button>
-        </view>
-      </van-card>
-    </van-grid-item>
-    <van-grid-item use-slot>
-      <van-card num="2" tag="标签" price="10.00" desc="描述信息" title="商品标题" thumb="{{ imageURL }}">
-        <view slot="footer">
-          <van-button size="mini">按钮</van-button>
-          <van-button size="mini">按钮</van-button>
-        </view>
-      </van-card>
-    </van-grid-item>
-  </van-grid>
-</view>
+<mp-half-screen-dialog show="{{dateSelectShow}}" mask="{{false}}" title="" subTitle="" desc="" tips="" bindclose="dateSelectclose">
+  <view slot="footer">
+    <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="checkboxChange">
+    <mp-checkbox wx:for="{{checkboxItems}}" wx:key="value" label="{{item.name}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
+  </mp-checkbox-group>
+  </view>
+
+</mp-half-screen-dialog>
