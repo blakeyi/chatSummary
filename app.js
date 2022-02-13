@@ -5,9 +5,8 @@ App({
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    logs.unshift(1111);
   },
   globalData: {
     userInfo: null
-  }
+  },
 })

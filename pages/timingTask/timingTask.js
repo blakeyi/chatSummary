@@ -1,29 +1,122 @@
+const util = require('../../utils/util.js')
+
+const TASK_ADD = 1
+const TASK_MOD = 2
+wx.cloud.init({
+  env: 'blakeyi-3gkzlc1w8392c037'
+})
+//获取数据库环境引用
+const db = wx.cloud.database({
+  env: 'blakeyi-3gkzlc1w8392c037'
+})
+const periodID = 'tUaPcDxzJy8ajjbdboMAvT0A1mHm_dXLDdFjoeFUB-w'
+const lunchID = 'rFl_n3k-rdZ1loFMS-MAdCbAunCnW7T1JkF4fiha2Ik'
+const periodMsg = {
+  "date1": {
+    "value": '2022年02月25日'
+  },
+  "number2": {
+    "value": '13'
+  },
+  "thing3": {
+    "value": '记得别碰冷水,保护好自己哟'
+  }
+}
+const lunchMsg = {
+  "thing1": {
+    "value": '中午点外卖'
+  },
+  "time2": {
+    "value": '11:30'
+  },
+  "thing4": {
+    "value": '卫东龙商务大厦'
+  }
+}
 
 Page({
   data: {
     searchStr: '', // 搜索输入字符串
-    addTaskShow:false,
-    periodTypeOption: ["每天","工作日","自定义"],
-    periodType:"",
-    periodIndex:0,
+    taskStatus: 0,
+    periodTypeOption: ["每天", "工作日", "自定义"],
+    periodType: "",
+    periodIndex: 0,
     concreteTime: '12:00',
-    dateSelectShow:false, // 选择星期几
-    title:"",
-    desc:"",
-    tag:"",
-    tagCheckStatus:true,
-    tasks: [{ "tag": "提醒", "title": "blakeyi", "desc": "blakeyi", "period": "111", "index":0 },
-    { "tag": "提醒", "title": "blakeyi", "desc": "blakeyi", "period": "111", "index":1 }],
-    checkboxItems: [
-      {name: '星期一', value: 0, checked:false},
-      {name: '星期二', value: 1, checked:false},
-      {name: '星期三', value: 2, checked:false},
-      {name: '星期四', value: 3, checked:false},
-      {name: '星期五', value: 4, checked:false},
-      {name: '星期六', value: 5, checked:false},
-      {name: '星期日', value: 6, checked:false},
-  ],
-  checkboxItemValue:[]
+    dateSelectShow: false, // 选择星期几
+    title: "",
+    desc: "",
+    tag: "提醒",
+    tagCheckStatus: true,
+    curId: 0, // 记录修改时的下标
+    tasks: null,
+    checkboxItems: [{
+        name: '星期一',
+        value: 0,
+        checked: false
+      },
+      {
+        name: '星期二',
+        value: 1,
+        checked: false
+      },
+      {
+        name: '星期三',
+        value: 2,
+        checked: false
+      },
+      {
+        name: '星期四',
+        value: 3,
+        checked: false
+      },
+      {
+        name: '星期五',
+        value: 4,
+        checked: false
+      },
+      {
+        name: '星期六',
+        value: 5,
+        checked: false
+      },
+      {
+        name: '星期日',
+        value: 6,
+        checked: false
+      },
+    ],
+    checkboxItemValue: []
+  },
+  onLoad(){
+    this.getOpenId()
+    var that = this
+    db.collection('tasks').get({
+      success: function(res) {
+        // res.data 是一个包含集合中有权限访问的所有记录的数据，不超过 20 条
+        console.log(res)
+        that.setData({
+          tasks:res.data
+        })
+      }
+    })
+  },
+  onShow() {
+    let date = util.formatTime(new Date())
+    let day = date.split(' ')[0]
+    let hour = date.split(' ')[1]
+    console.log(day)
+    console.log(hour)
+  },
+  onTabItemTap(item) {
+    console.log(item.index) // tabbar索引
+    console.log(item.pagePath) // tabbar路径
+    console.log(item.text) // tabbar文字
+    wx.requestSubscribeMessage({
+      tmplIds: [periodID, lunchID],
+      success(res) {
+        console.log(res)
+      }
+    })
   },
   onChange(e) {
     this.setData({
@@ -37,42 +130,42 @@ Page({
     Toast('搜索' + this.data.searchStr);
   },
   onPeriodChange(event) {
-    const { picker, value, index } = event.detail;
+    const {
+      picker,
+      value,
+      index
+    } = event.detail;
     Toast(`当前值：${value}, 当前索引：${index}`);
   },
-  showTask(){
-    this.setData({
-      addTaskShow:true
-    })
-  },
-  bindPeriodChange(e){
+
+  bindPeriodChange(e) {
     let ret = e.detail.value
     console.log(ret)
     if (ret == 2) {
       console.log(11111)
       this.setData({
-        dateSelectShow:true
+        dateSelectShow: true
       })
-    } 
+    }
     this.setData({
       periodType: this.data.periodTypeOption[e.detail.value]
     })
   },
-  bindTimeChange(e){
+  bindTimeChange(e) {
     this.setData({
       concreteTime: e.detail.value
     })
   },
-  checkboxChange(e){
+  checkboxChange(e) {
     this.setData({
-      checkboxItemValue:e.detail.value
+      checkboxItemValue: e.detail.value
     })
   },
-  dateSelectclose(e){
+  dateSelectclose(e) {
     console.log(this.data.checkboxItemValue)
     let sets = []
     let ret = "星期"
-    for(let i in this.data.checkboxItemValue) {
+    for (let i in this.data.checkboxItemValue) {
       sets.push(parseInt(i))
     }
     console.log(sets)
@@ -81,62 +174,142 @@ Page({
       ret += this.data.checkboxItems[i].name.substr(2, 1) + ","
     }
     console.log(ret)
-    ret = ret.substr(0, ret.length-1)
+    ret = ret.substr(0, ret.length - 1)
     this.setData({
-      periodType:ret
+      periodType: ret
     })
   },
-  weSubmitForm(){
+  getOpenId() {
+    let openid = wx.getStorageSync('openid')
+    console.log(openid)
+    if (openid != "") {
+      return openid
+    }
+    wx.cloud.callFunction({
+      name: 'getOpenId',
+      data: {
+        message: 'getOpenId',
+      }
+    }).then(res => {
+      console.log(res)
+      wx.setStorage({
+        key: "openid",
+        data: res.result.openid
+      })
+    })
+  },
+  async weSubmitForm() {
     console.log(this.data)
+    let taskStatus = this.data.taskStatus
     this.setData({
-      addTaskShow:false
+      taskStatus: 0
     })
     let tasks = this.data.tasks
-    let task = { "tag": this.data.tag, "title": this.data.title, "desc": this.data.desc, "period": this.data.periodType, "index": tasks.length}
-    tasks.push(task)
+    if (taskStatus == TASK_MOD) {
+      for (let i = 0; i < tasks.length; i++) {
+        if (tasks[i].id == this.data.curId) {
+          console.log()
+          tasks[i] = {
+            "tag": this.data.tag,
+            "title": this.data.title,
+            "desc": this.data.desc,
+            "period": this.data.periodType,
+            "id": this.data.curId,
+            "time":this.data.concreteTime
+          }
+          await db.collection('tasks').where({
+            id:this.data.curId
+          }).update({data:tasks[i]}).then(res => {
+            console.log(res)  
+          })
+        }
+      }
+    } else {
+      let task = {
+        "tag": this.data.tag,
+        "title": this.data.title,
+        "desc": this.data.desc,
+        "period": this.data.periodType,
+        "id": this.getUuiD()
+      }
+      db.collection('tasks').add({data:task})
+      tasks.push(task)
+    }
+
+    // if (this.data.title == "经期") {
+    //   this.sendMsg(periodID, periodMsg)
+    // } else {
+    //   this.sendMsg(lunchID, lunchMsg)
+    // }
+    console.log(tasks)
     this.setData({
-      tasks:tasks
+      tasks: tasks
+    })
+    
+  },
+  sendMsg(templateId, content) {
+    //做一些后续操作，不用考虑代码的异步执行问题。
+    wx.cloud.callFunction({
+      name: "sendMsg",
+      data: {
+        openid: this.getOpenId(),
+        templateId: templateId,
+        content: content,
+      }
+    }).then(res => {
+      console.log(res)
     })
   },
-  restForm(){
+  showTask() {
     this.setData({
-      addTaskShow:false
+      taskStatus: TASK_ADD
     })
   },
-  bindTagChange(e){
+  restForm() {
+    this.setData({
+      taskStatus: 0
+    })
+  },
+  bindTagChange(e) {
     console.log(e)
     this.setData({
-      tag:e.detail.value
+      tag: e.detail.value
     })
   },
-  deleteTask(e){
+  // 生成一个8位不重复的id
+  getUuiD() {
+    return Number(Math.random().toString().substr(2, 8) + Date.now()).toString(36)
+  },
+  deleteTask(e) {
     console.log(e.currentTarget.dataset.task)
-    let index = e.currentTarget.dataset.task.index
+    let id = e.currentTarget.dataset.task.id
+    db.collection('tasks').where({id:id}).remove()
     let tasks = this.data.tasks.filter(item => {
-      if (item.index == index) {
+      if (item.id == id) {
         return false
       }
       return true
     })
     console.log(tasks)
     this.setData({
-      tasks:tasks
+      tasks: tasks
     })
   },
-  editTask(e){
-    let task =  e.currentTarget.dataset.task
+
+  editTask(e) {
+    let task = e.currentTarget.dataset.task
     let tagCheckStatus = true
-    if (task.tag == "提醒") {
+    if (task.tag == "任务") {
       tagCheckStatus = false
     }
     this.setData({
-      addTaskShow:true,
-      title:task.title,
-      periodType:task.period,
-      desc:task.desc,
-      index:task.index,
-      tag:task.tag,
-      tagCheckStatus:tagCheckStatus
+      taskStatus: TASK_MOD,
+      title: task.title,
+      periodType: task.period,
+      desc: task.desc,
+      curId: task.id,
+      tag: task.tag,
+      tagCheckStatus: tagCheckStatus
     })
   }
 

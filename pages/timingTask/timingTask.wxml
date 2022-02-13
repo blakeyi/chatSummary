@@ -3,25 +3,34 @@
     <van-search value="{{ searchStr }}" placeholder="输入任务名称" show-action bind:search="onSearch" bind:cancel="onCancel"></van-search>
   </van-col>
   <van-col span="4" offset="1">
-    <van-button type="primary" size="small" bind:click="showTask">新增任务</van-button>
+    <van-button type="primary" class="addTask" size="small" bind:click="showTask">新增任务</van-button>
   </van-col>
 </van-row>
-<van-grid direction="horizontal" column-num="2">
+<van-grid direction="horizontal" column-num="1">
   <van-grid-item use-slot wx:for="{{tasks}}" wx:for-item="task">
+    <!-- <wux-card full title="{{task.title}}" extra="{{task.tag}}" thumb="">
+      <view slot="body">{{task.desc}}</view>
+      <view slot="footer">{{task.period}}</view>
+      <view slot="footer">{{task.time}}</view>
+    </wux-card> -->
     <van-card tag="{{task.tag}}" desc="{{task.desc}}" title="{{task.title}}">
       <view slot="price-top">
         <text>周期:</text>
         <text>{{task.period}}</text>
       </view>
+      <view slot="price">
+        <text>提醒时间:</text>
+        <text>{{task.time}}</text>
+      </view>
       <view slot="footer">
-        <van-button size="mini" bind:click="editTask" data-task="{{task}}">编辑</van-button>
+        <van-button size="mini" bind:click="editTask" data-task="{{task}}" data-status="edit">编辑</van-button>
         <van-button size="mini" type='danger' bind:click="deleteTask" data-task="{{task}}">删除</van-button>
       </view>
     </van-card>
   </van-grid-item>
 </van-grid>
 
-<mp-dialog title="新增任务" show="{{addTaskShow}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}" zIndex="100">
+<mp-dialog title="任务编辑" show="{{taskStatus > 0}}" bindbuttontap="tapDialogButton" buttons="{{buttons}}" zIndex="100">
   <mp-form id="form" rules="{{rules}}" models="{{form}}">
     <mp-cells>
       <mp-cell class="form_item" prop="title" title="标题">
@@ -30,10 +39,10 @@
       <mp-cell class="form_item" prop="tag" title="类型">
         <radio-group name="radio" bindchange="bindTagChange">
           <label>
-            <radio value="提醒" checked="{{tagCheckStatus}}"/>提醒
+            <radio value="提醒" checked="{{tagCheckStatus}}" />提醒
           </label>
           <label>
-            <radio value="任务" checked="{{!tagCheckStatus}}"/>任务
+            <radio value="任务" checked="{{!tagCheckStatus}}" />任务
           </label>
         </radio-group>
       </mp-cell>
@@ -62,8 +71,8 @@
 <mp-half-screen-dialog show="{{dateSelectShow}}" mask="{{false}}" title="" subTitle="" desc="" tips="" bindclose="dateSelectclose">
   <view slot="footer">
     <mp-checkbox-group prop="checkbox" multi="{{true}}" bindchange="checkboxChange">
-    <mp-checkbox wx:for="{{checkboxItems}}" wx:key="value" label="{{item.name}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
-  </mp-checkbox-group>
+      <mp-checkbox wx:for="{{checkboxItems}}" wx:key="value" label="{{item.name}}" value="{{item.value}}" checked="{{item.checked}}"></mp-checkbox>
+    </mp-checkbox-group>
   </view>
 
 </mp-half-screen-dialog>
